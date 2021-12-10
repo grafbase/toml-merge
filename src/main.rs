@@ -26,14 +26,7 @@ fn merge(merged: &mut toml::Value, value: &toml::Value) {
         toml::Value::Array(x) => {
             match merged {
                 toml::Value::Array(merged) => {
-                    for (k, v) in x.iter().enumerate() {
-                        match merged.get_mut(k) {
-                            Some(x) => merge(x, v),
-                            None => {
-                                let _ = merged.insert(k.clone(), v.clone());
-                            },
-                        }
-                    }
+                    merged.extend(x.iter().cloned());
                 },
                 _ => *merged = value.clone(),
             }
